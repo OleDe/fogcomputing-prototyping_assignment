@@ -10,4 +10,4 @@ if __name__ == "__main__":
     s.sendall(b'Hello, world')
     data = s.recv(1024)
     s.close()
-    print('Received', repr(data))
+    print('Received', str(data))
