@@ -16,10 +16,13 @@ if __name__ == "__main__":
     print("Bind to 0.0.0.0:50000...")
     s.bind(('0.0.0.0', 50000))
     s.listen(1)
-    conn, addr = s.accept()
     while 1:
-        data = conn.recv(1024)
-        if not data:
-            break
-        conn.sendall(data)
-    conn.close()
+        print("Accepting...")
+        conn, addr = s.accept()
+        while 1:
+            data = conn.recv(1024)
+            print("recevied" + repr(data))
+            if not data:
+                break
+            conn.sendall(data)
+        conn.close()
