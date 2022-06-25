@@ -13,6 +13,7 @@ def sig_handler(signum, frame):
 if __name__ == "__main__":
     signal.signal(signal.SIGINT, sig_handler)
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    print("Bind to 0.0.0.0:50000...")
     s.bind(('0.0.0.0', 50000))
     s.listen(1)
     conn, addr = s.accept()
