@@ -1,28 +1,18 @@
-import socket, signal, os
+import time
+import zmq
 
-conn = None
-addr = None
+context = zmq.Context()
+socket = context.socket(zmq.REP)
+socket.bind("tcp://*:50000")
 
-def sig_handler(signum, frame):
-    print("\nInterrupt by user")
-    if conn:
-        print("Close Connection...")
-        conn.close()
-    exit()
+while True:
+    #  Wait for next request from client
+    message = socket.recv()
+    print(f"Received request: {message}")
 
-if __name__ == "__main__":
-    signal.signal(signal.SIGINT, sig_handler)
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    print("Bind to 0.0.0.0:50000...")
-    s.bind(('0.0.0.0', 50000))
-    s.listen(1)
-    while 1:
-        print("Accepting...")
-        conn, addr = s.accept()
-        while 1:
-            data = conn.recv(1024)
-            print("recevied" + repr(data))
-            if not data:
-                break
-            conn.sendall(data)
-        conn.close()
+    #  Do some 'work'
+    time.sleep(1)
+
+    #  Send reply back to client
+    print("Replying Pong...")
+    socket.send(b"Pong")

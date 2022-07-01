@@ -1,13 +1,17 @@
-import socket, sys
+import zmq
 
-if __name__ == "__main__":
-    gc_inst_ip = '34.159.196.33'
-    if len(sys.argv) > 1:
-        gc_inst_ip = sys.argv[1]
-    print("Connecting to " + gc_inst_ip)
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.connect((gc_inst_ip, 50000))
-    s.sendall(b'Hello, world')
-    data = s.recv(1024)
-    s.close()
-    print('Received', str(data))
+context = zmq.Context()
+
+#  Socket to talk to server
+print("Connecting to hello world server…")
+socket = context.socket(zmq.REQ)
+socket.connect("tcp://localhost:50000")
+
+#  Do 10 requests, waiting each time for a response
+for request in range(10):
+    print(f"Sending message PING (request {request}) …")
+    socket.send(b"Ping")
+
+    #  Get the reply.
+    message = socket.recv()
+    print(f"Received reply {request} [ {message} ]")
