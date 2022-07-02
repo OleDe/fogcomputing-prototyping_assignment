@@ -1,4 +1,5 @@
 import zmq, sys
+from gather_data import Gather_data
 
 if len(sys.argv) < 2:
     print("Usage: {} <server-ip-or-hostname>".format(sys.argv[0]))
