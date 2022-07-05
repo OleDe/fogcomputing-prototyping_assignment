@@ -24,14 +24,23 @@ class Gather_data:
             self.bus = SMBus(1)
             self.bmp280 = BMP280(i2c_dev=bus)
                 
-    # gather latest temperature and pressure from Oslo. These are updated every 5 minutes
     def __gather_data_from_url(self):
+        """
+        gather latest temperature and pressure from Oslo. These are updated every 5 minutes
+
+        :return: tuple(float, float), air temperature in degree celsius, air pressure in hPa
+        """
         output = subprocess.check_output(["curl -X GET --header \'Accept: application/json\' \'https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=59.9333&lon=10.7166\'"], shell=True, stderr=subprocess.DEVNULL)
 
         data = json.loads(output)['properties']['timeseries'][0]['data']['instant']['details']
         return (data['air_temperature'], data['air_pressure_at_sea_level'])
     
     def gather(self):
+        """
+        Gathers time air temperature and air pressure either from sensor or from url
+
+        :return: tuple(float, float, float), current time in seconds since epoch, air temperature in degree celsius, air pressure in hPa
+        """
         tm = time.time()
         if self.sensor:
             return (tm, self.bmp280.get_temperature(), self.bmp280.get_pressure())
