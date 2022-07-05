@@ -2,7 +2,7 @@ import time
 import zmq
 
 context = zmq.Context()
-socket = context.socket(zmq.REP)
+socket = context.socket(zmq.REQ)
 socket.bind("tcp://*:50000")
 
 while True:

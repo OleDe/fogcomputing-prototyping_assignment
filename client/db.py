@@ -17,14 +17,12 @@ class cldb:
         self.collection.create_index([('time', pymongo.ASCENDING)],
                                     unique=True)
     
-    def insert(self, air_pressure, air_temperature, time):
+    def insert(self, doc):
         """
         Insert a document in sensor_data collection.
         """
         try:
-            self.collection.insert_one({'air_pressure': air_pressure,
-                            'ait_temperature': air_temperature,
-                            'time': time})
+            self.collection.insert_one(doc)
         except pymongo.errors.DuplicateKeyError:
             print('cldb.insert: Document already exists!', file=sys.stderr)
     
