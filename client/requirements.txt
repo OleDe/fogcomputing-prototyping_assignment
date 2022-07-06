@@ -1,2 +1,2 @@
-zmq
+zmq>=4.2
 pymongo
