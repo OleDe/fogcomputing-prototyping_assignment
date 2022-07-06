@@ -1,12 +1,14 @@
 import pymongo, sys
 
-class cldb:
+# TODO: make shared db module
+
+class svdb:
     def __init__(self):
         self.hostname = 'localhost'
-        self.port = 27017
-        self.username = 'cl'
-        self.password = 'cl123'
-        self.db_name = 'cl_db'
+        self.port = 27018
+        self.username = 'serv'
+        self.password = 'serv123'
+        self.db_name = 'serv_db'
         self.collection_name = 'sensor_data'
         self.client = pymongo.MongoClient(self.hostname,
                                             self.port,
@@ -26,24 +28,21 @@ class cldb:
         except pymongo.errors.DuplicateKeyError:
             print('cldb.insert: Document already exists!', file=sys.stderr)
     
-    def get_data_latter_than(self, time):
+    def get_latest_timestamp(self):
         """
-        Returns data that was created after time.
+        Returns latest timestamp. In case of empty database, 0 will be returned
         """
-        return list(self.collection.find({'time' : { '$gt':  time }}).sort('time', pymongo.ASCENDING))
-
-    def erase_data_starting_from(self, time):
-
-        """
-        Erases data that is older than or equal time.
-        """
-        return self.collection.delete_many({'time' : { '$lte':  time }})
+        docs = self.collection.find().sort('time', pymongo.DESCENDING)
+        try:
+            return docs[0]['time']
+        except IndexError:
+            return 0.0
 
 
 if __name__ == '__main__':
-    db = cldb()
+    db = svdb()
+    print(db.get_latest_timestamp())
     db.insert({'air_pressure': 1013.25, 'air_temperature': 25, 'time': 12345})
     db.insert({'air_pressure': 1015.25, 'air_temperature': 27, 'time': 12347})
     db.insert({'air_pressure': 1014.25, 'air_temperature': 26, 'time': 12346})
-    print(db.get_data_newer_than(12346))
-    db.erase_old_data_starting_from(12346)
+    print(db.get_latest_timestamp())

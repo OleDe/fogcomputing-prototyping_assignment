@@ -42,7 +42,7 @@ class Gather_data:
 
         :return: dict, current time in seconds since epoch, air temperature in degree celsius, air pressure in hPa
         """
-        tm = {'time': time.time()}
+        tm = {'time': time.time_ns()}
         if self.sensor:
             tm.update({ 'air_temperature': self.bmp280.get_temperature(),
                         'air_pressure': self.bmp280.get_pressure()})
