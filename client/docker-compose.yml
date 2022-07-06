@@ -1,9 +1,12 @@
+name: fog-node
+
 networks:
   app-tier:
     driver: bridge
 
 services:
   mongodb:
+    container_name: mongodb
     image: 'mongo:4.4.6'
     environment:
       - MONGO_INITDB_ROOT_USERNAME=cl
@@ -13,7 +16,11 @@ services:
       - 27017:27017
     networks:
       - app-tier
-  # myapp:
-  #   image: 'client:latest'
-  #   networks:
-  #     - app-tier
+  py-client:
+    container_name: py-client
+    image: py-client:latest
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    networks:
+      - app-tier

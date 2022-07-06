@@ -12,11 +12,18 @@ print("Connecting to hello world server…")
 socket = context.socket(zmq.REQ)
 socket.connect("tcp://{}:50000".format(sys.argv[1]))
 
+sensor = Gather_data(False)
+
 #  Do 10 requests, waiting each time for a response
 for request in range(10):
-    print(f"Sending message PING (request {request}) …")
-    socket.send(b"Ping")
+
+    # s
+    data = sensor.gather()
+    print(f"Sending weather data (request {request}): {data}")
+    socket.send_json(data)
 
     #  Get the reply.
     message = socket.recv()
     print(f"Received reply {request} [ {message} ]")
+
+

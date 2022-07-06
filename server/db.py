@@ -2,32 +2,32 @@ import pymongo, sys
 
 class cldb:
     def __init__(self):
-        self.hostname = 'localhost'
+        self.hostname = 'mongodb'
         self.port = 27017
         self.username = 'cl'
         self.password = 'cl123'
         self.db_name = 'cl_db'
         self.collection_name = 'sensor_data'
         self.client = pymongo.MongoClient(self.hostname,
-                                            self.port,
-                                            username=self.username,
-                                            password=self.password)
+                                          self.port,
+                                          username=self.username,
+                                          password=self.password)
         self.db = self.client[self.db_name]
         self.collection = self.db[self.collection_name]
         self.collection.create_index([('time', pymongo.ASCENDING)],
-                                    unique=True)
-    
+                                     unique=True)
+
     def insert(self, air_pressure, air_temperature, time):
         """
         Insert a document in sensor_data collection.
         """
         try:
             self.collection.insert_one({'air_pressure': air_pressure,
-                            'ait_temperature': air_temperature,
-                            'time': time})
+                                        'ait_temperature': air_temperature,
+                                        'time': time})
         except pymongo.errors.DuplicateKeyError:
             print('cldb.insert: Document already exists!', file=sys.stderr)
-    
+
     def get_data_latter_than(self, time):
         """
         Returns data that was created after time.

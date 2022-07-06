@@ -5,8 +5,8 @@
 import time, subprocess, json
 
 class Gather_data:
-    def __init__(self):
-        self.sensor=True
+    def __init__(self, sensor_active: bool):
+        self.sensor=sensor_active
         self.bus=None
         self.bmp280=None
 
@@ -48,6 +48,6 @@ class Gather_data:
         return (tm,) + self.__gather_data_from_url()
 
 if __name__ == '__main__':
-    g = Gather_data()
+    g = Gather_data(False)
     data = g.gather()
     print(data)
