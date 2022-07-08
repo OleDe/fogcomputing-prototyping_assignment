@@ -1,10 +1,12 @@
-name: fc-local
+#name: fc-local
+version: "3"
 
 services:
 
   py-client:
     container_name: py-client
     image: py-client:latest
+    restart: unless-stopped
     build:
       context: ./client
       dockerfile: Dockerfile
@@ -13,6 +15,7 @@ services:
   py-server:
     container_name: py-server
     image: py-server:latest
+    restart: unless-stopped
     build:
       context: ./server
       dockerfile: Dockerfile
@@ -23,6 +26,7 @@ services:
   db-server:
     container_name: db-server
     image: 'mongo:4.4.6'
+    restart: unless-stopped
     environment:
       - MONGO_INITDB_ROOT_USERNAME=serv
       - MONGO_INITDB_ROOT_PASSWORD=serv123
@@ -35,6 +39,7 @@ services:
   db-client:
     container_name: db-client
     image: 'mongo:4.4.6'
+    restart: unless-stopped
     environment:
       - MONGO_INITDB_ROOT_USERNAME=cl
       - MONGO_INITDB_ROOT_PASSWORD=cl123
