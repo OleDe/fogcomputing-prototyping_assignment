@@ -63,5 +63,3 @@ docker compose up --build -d
 
 This will start four docker containers: one for the server (py-server), one for the client (py-client), and two for the
 database instances.
-
-### Distributed Environment
