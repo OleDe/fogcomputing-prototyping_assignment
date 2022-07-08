@@ -23,7 +23,7 @@ Mandatory:
 
 Optional:
 
- -`gcloud` - Google Cloud CLI (preferebly already initialized, see [link](https://cloud.google.com/sdk/docs/initializing))
+ - `gcloud` - Google Cloud CLI (preferebly already initialized, see [link](https://cloud.google.com/sdk/docs/initializing))
  - `Docker-compose` - for running the multi-container application
  - `bmp280` - CLient is able to aquire data from a BMP280 temperature, pressure and altitude sensor
 ## How to use the application
