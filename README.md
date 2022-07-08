@@ -35,9 +35,15 @@ To build and start the server simply run
 docker-compose -f server/docker-compose.yml up -d
 ```
 in the parent directory and let docker compose do the work. This sets up two docker containers, one for the server and one for the database that persistantly stores the data received from the client.
-This can also be deployed in any VM. To host a Google Cloud VM with required firewall options, run:
+This can also be deployed in any VM. To host a Google Cloud VM, run:
 ```
 ./scripts/build_gc.sh
+```
+This creates a container-optimized VM with firewall and a ssh-key and prints out the servers external ip. Log in via SSH, download the git and run docker compose:
+```
+ssh -i id_rsa foggy@<server-ip>
+git clone <path-to-this-rep>
+docker-compose -f <path-to-rep>/server/docker-compose.yml
 ```
 
 ### Deploy Client
