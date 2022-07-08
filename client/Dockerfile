@@ -8,4 +8,4 @@ COPY client.py /client.py
 COPY gather_data.py /gather_data.py
 COPY db.py /db.py
 
-ENTRYPOINT python -u /client.py
+ENTRYPOINT python -u /client.py localhost 27017

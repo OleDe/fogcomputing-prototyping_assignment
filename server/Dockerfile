@@ -7,4 +7,4 @@ RUN pip install pyzmq pymongo
 COPY server.py /server.py
 COPY db.py /db.py
 
-ENTRYPOINT python -u /server.py
+ENTRYPOINT python -u /server.py db-server 27017
