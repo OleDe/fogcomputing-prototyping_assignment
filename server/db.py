@@ -3,9 +3,9 @@ import pymongo, sys
 # TODO: make shared db module
 
 class svdb:
-    def __init__(self):
-        self.hostname = 'localhost'
-        self.port = 27018
+    def __init__(self, location: str, port=27018):
+        self.hostname = location
+        self.port = port
         self.username = 'serv'
         self.password = 'serv123'
         self.db_name = 'serv_db'

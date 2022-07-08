@@ -1,0 +1,45 @@
+name: fc-local
+
+services:
+
+  py-client:
+    container_name: py-client
+    image: py-client:latest
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    entrypoint: python -u /client.py py-server db-client
+
+  py-server:
+    container_name: py-server
+    image: py-server:latest
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - "50000:50000"
+    entrypoint: python -u /server.py db-server 27017
+
+  db-server:
+    container_name: db-server
+    image: 'mongo:4.4.6'
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=serv
+      - MONGO_INITDB_ROOT_PASSWORD=serv123
+      - MONGO_INITDB_DATABASE=serv_db
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./server/db:/data/db
+
+  db-client:
+    container_name: db-client
+    image: 'mongo:4.4.6'
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=cl
+      - MONGO_INITDB_ROOT_PASSWORD=cl123
+      - MONGO_INITDB_DATABASE=cl_db
+    ports:
+      - "27018:27017"
+    volumes:
+      - ./client/db:/data/db

@@ -50,13 +50,13 @@ class Client:
 
 
 if __name__ == '__main__':
-    if len(sys.argv) < 2:
-        print("Usage: {} <server-ip-or-hostname>".format(sys.argv[0]))
+    if len(sys.argv) < 3:
+        print("Usage: {} <server-ip-or-hostname> <mongodb-ip-or-hostname>".format(sys.argv[0]))
         exit(1)
 
     client = Client(sys.argv[1])
     client.reconnect()
-    db = cldb()
+    db = cldb(sys.argv[2])
 
     #  start collectiong data from sensor
     data_thread = threading.Thread(target=gather_data, args=(db,))

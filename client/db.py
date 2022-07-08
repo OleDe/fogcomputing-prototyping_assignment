@@ -1,9 +1,9 @@
 import pymongo, sys
 
 class cldb:
-    def __init__(self):
-        self.hostname = 'localhost'
-        self.port = 27017
+    def __init__(self, location: str, port=27017):
+        self.hostname = location
+        self.port = port
         self.username = 'cl'
         self.password = 'cl123'
         self.db_name = 'cl_db'

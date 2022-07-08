@@ -1,14 +1,19 @@
-import time, zmq
+import time, zmq, sys
 from db import svdb
 
 # TODO: Message validation
+
+if len(sys.argv) < 3:
+    print("Usage: {} <mongodb-ip-or-hostname> <db-port>".format(sys.argv[0]))
+    exit(1)
 
 context = zmq.Context()
 socket = context.socket(zmq.REP)
 socket.bind("tcp://*:50000")
 print("Bound Zero Socket tcp://*:50000...")
 
-db = svdb()
+print(f'connecting to db at {sys.argv[1]}:{sys.argv[2]}')
+db = svdb(sys.argv[1], int(sys.argv[2]))
 
 while True:
     #  Wait for next request from client
