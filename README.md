@@ -49,7 +49,7 @@ cat <rep-name>/server/build_server_image.sh | sh
 ### Deploy Client
 To build and start the client on the edge node, pass the server ip accordingly when running docker compose:
 ```
-SERVER_HOSTNAME=<server-hostname-or-ip> docker-compose -f client/docker-compose.yml up -d
+SERVER_HOSTNAME=<server-ip> docker-compose -f client/docker-compose.yml up -d
 ```
 
 ### Local-Only
