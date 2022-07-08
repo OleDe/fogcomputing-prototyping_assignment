@@ -6,7 +6,7 @@ docker run -d --name db-server \
     -e MONGO_INITDB_ROOT_PASSWORD=serv123 \
     -e MONGO_INITDB_DATABASE=serv_db \
     -p 27017:27017 \
-    -v ./db:/data/db
+    -v ./db:/data/db \
     --network app-tier \
     --restart unless-stopped \
     mongo:4.4.6
