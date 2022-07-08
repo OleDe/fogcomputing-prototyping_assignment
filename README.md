@@ -39,7 +39,7 @@ This can also be deployed in any VM. To host a Google Cloud VM, run:
 ```
 ./scripts/build_gc.sh
 ```
-This creates a container-optimized VM with firewall and a ssh-key and prints out the servers external ip. Log in via SSH, download the git and execute build script:
+This creates a container-optimized VM with firewall and a ssh-key and prints out the servers external ip. Log in via SSH, download the repository and execute build script:
 ```
 ssh -i id_rsa foggy@<server-ip>
 git clone <path-to-this-rep>
