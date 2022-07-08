@@ -72,7 +72,8 @@ if __name__ == '__main__':
         while 1:
             client.send(request)
             response = client.recv()
-            if response and response['time']:
+            if response:
+                print("erase data since {}...".format(response['time']))
                 db.erase_data_starting_from(response['time'])
                 break
             else:
@@ -80,8 +81,10 @@ if __name__ == '__main__':
         
         # aquire data from database 
         while 1:
+            print('get data from db...')
             data = db.get_data_latter_than(response['time'])
             if data: 
+                print("got {}...".format(data[0]))
                 break
             print('No new data in database. Waiting...')
             time.sleep(0.2)
