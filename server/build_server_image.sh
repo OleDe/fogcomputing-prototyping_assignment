@@ -16,5 +16,5 @@ docker run -d --name py-server \
     -p 50000:50000 \
     --network app-tier \
     --restart unless-stopped \
-    --entrypoint "python -u /server.py db-server 27017"
+    --entrypoint "python -u /server.py db-server 27017" \
     py-server:latest
