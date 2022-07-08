@@ -1,19 +1,32 @@
+version: '3'
+
 networks:
   app-tier:
     driver: bridge
 
 services:
-  mongodb:
+  db-client:
+    container_name: db-client
     image: 'mongo:4.4.6'
+    restart: unless-stopped
     environment:
       - MONGO_INITDB_ROOT_USERNAME=cl
       - MONGO_INITDB_ROOT_PASSWORD=cl123
       - MONGO_INITDB_DATABASE=cl_db
     ports:
-      - 27017:27017
+      - "27018:27017"
+    volumes:
+      - ./client/db:/data/db
     networks:
       - app-tier
-  # myapp:
-  #   image: 'client:latest'
-  #   networks:
-  #     - app-tier
+
+  py-client:
+    container_name: py-client
+    image: py-client:latest
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: Dockerfile
+    entrypoint: python -u /client.py ${SERVER_HOSTNAME} db-client
+    networks:
+      - app-tier

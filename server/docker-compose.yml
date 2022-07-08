@@ -1,0 +1,34 @@
+version: '3'
+
+networks:
+  app-tier:
+    driver: bridge
+
+services:
+  py-server:
+    container_name: py-server
+    image: py-server:latest
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "50000:50000"
+    entrypoint: python -u /server.py db-server 27017
+    networks:
+      - app-tier
+
+  db-server:
+    container_name: db-server
+    image: 'mongo:4.4.6'
+    restart: unless-stopped
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=serv
+      - MONGO_INITDB_ROOT_PASSWORD=serv123
+      - MONGO_INITDB_DATABASE=serv_db
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./db:/data/db
+    networks:
+      - app-tier
