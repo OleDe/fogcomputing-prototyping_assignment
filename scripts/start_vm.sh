@@ -1,3 +1,3 @@
 #!/bin/bash
 
-gcloud compute instances start instance-1
+gcloud compute instances start fog-instance-1

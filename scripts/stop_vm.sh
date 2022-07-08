@@ -1,3 +1,3 @@
 #!/bin/bash
 
-gcloud compute instances stop instance-1
+gcloud compute instances stop fog-instance-1
