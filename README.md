@@ -43,7 +43,7 @@ This creates a container-optimized VM with firewall and a ssh-key and prints out
 ```
 ssh -i id_rsa foggy@<server-ip>
 git clone <path-to-this-rep>
-docker-compose -f <path-to-rep>/server/docker-compose.yml
+cat <rep-name/server/build_server_image.sh | sh
 ```
 
 ### Deploy Client
