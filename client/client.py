@@ -72,7 +72,8 @@ if __name__ == '__main__':
         while 1:
             client.send(request)
             response = client.recv()
-            if response:
+            if response and response['time']:
+                db.erase_data_starting_from(response['time'])
                 break
             else:
                 request = initial_request
