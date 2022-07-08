@@ -30,11 +30,23 @@ Optional:
 Client and server containers can be deployed in the cloud and an edge node, or both on a single computer.
 
 ### Deploy Server
-To build and start the server containers simply run `docker-compose -f server/docker-compose.yml up -d` in the parent directory and let docker compose do the work. This sets up two docker containers, one for the server and one for the database that persistantly stores the data received from the client.
-This can also be deployed in any VM. A Google Cloud VM with required firewall options, run `./scripts/build_gc.sh`.
+To build and start the server simply run 
+```
+docker-compose -f server/docker-compose.yml up -d
+```
+in the parent directory and let docker compose do the work. This sets up two docker containers, one for the server and one for the database that persistantly stores the data received from the client.
+This can also be deployed in any VM. To host a Google Cloud VM with required firewall options, run 
+```
+./scripts/build_gc.sh
+```
+.
 
 ### Deploy Client
-To build and start the client containerson the edge node, pass the server ip accordingly when running docker compose `SERVER_HOSTNAME=<server-hostname-or-ip> docker-compose -f client/docker-compose.yml up -d`.
+To build and start the client on the edge node, pass the server ip accordingly when running docker compose
+```
+SERVER_HOSTNAME=<server-hostname-or-ip> docker-compose -f client/docker-compose.yml up -d
+```
+.
 
 ### Local-Only
 
