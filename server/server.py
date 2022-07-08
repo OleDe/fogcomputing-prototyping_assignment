@@ -16,7 +16,7 @@ print(f'connecting to db at {sys.argv[1]}:{sys.argv[2]}')
 db = svdb(sys.argv[1], int(sys.argv[2]))
 
 while True:
-    #  Wait for next request from client
+    #  Wait for message from client
     message = socket.recv_pyobj()
     print("Received request: {}".format(str(message)))
 
@@ -24,16 +24,16 @@ while True:
     stamp = db.get_latest_timestamp()
     if 'send_timestamp' in message:
         print('Sending latest timestamp: {}...'.format(stamp))
-        response = {'time': stamp}
+        request = {'time': stamp}
 
     # process consecutive messages
     else:
         if message['time'] <= stamp:
             print('deprecated data {} <= {}'.format(message['time'], stamp))
-            response = {'time': stamp}
+            request = {'time': stamp}
         else:
             db.insert({'air_pressure': message['air_pressure'], 'air_temperature': message['air_temperature'], 'time': message['time']})
-            response = {'time': message['time']}
+            request = {'time': message['time']}
         
-    # send response
-    socket.send_pyobj(response)
+    # send request
+    socket.send_pyobj(request)

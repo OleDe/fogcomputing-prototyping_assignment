@@ -33,6 +33,9 @@ class Client:
         self.poller.register(self.socket, zmq.POLLIN)
 
     def recv(self):
+        '''
+        Receive data from server. Reconnect after timeout
+        '''
         while 1:
             item = self.poller.poll(self.timeout)
             response = None
@@ -45,6 +48,9 @@ class Client:
             return response
     
     def send(self, obj):
+        '''
+        Send Object to server
+        '''
         print('Sending data: {}'.format(str(obj)))
         self.socket.send_pyobj(obj)
 
@@ -58,17 +64,18 @@ if __name__ == '__main__':
     client.reconnect()
     db = cldb(sys.argv[2])
 
-    #  start collectiong data from sensor
+    # start collecting data from sensor
     data_thread = threading.Thread(target=gather_data, args=(db,))
     data_thread.daemon = True
     data_thread.start()
 
+    # make initial request
     response = None
     initial_request = {'send_timestamp': 1}
     request = initial_request
 
     while 1:
-        # connect to server and receive timestamp
+        # send data and receive timestamp
         while 1:
             client.send(request)
             response = client.recv()
@@ -84,12 +91,9 @@ if __name__ == '__main__':
             print('get data from db...')
             data = db.get_data_latter_than(response['time'])
             if data: 
-                print("got {}...".format(data[0]))
+                print("got {} from db...".format(data[0]))
+                request = data[0]
                 break
             print('No new data in database. Waiting...')
             time.sleep(0.2)
-            
-
-        # send next document to server
-        request = data[0]
             
