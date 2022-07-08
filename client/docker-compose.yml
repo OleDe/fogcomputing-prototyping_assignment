@@ -16,7 +16,7 @@ services:
     ports:
       - "27018:27017"
     volumes:
-      - ./client/db:/data/db
+      - ./db:/data/db
     networks:
       - app-tier
 
