@@ -1,0 +1,14 @@
+FROM python:3.6.15
+
+RUN apt update
+
+RUN pip install --upgrade pip setuptools wheel
+RUN apt install libzmq3-dev -y
+RUN pip install --no-binary=:all: pyzmq
+RUN pip install pymongo==3.4.0 bmp280 smbus
+
+COPY client.py /client.py
+COPY gather_data.py /gather_data.py
+COPY db.py /db.py
+
+ENTRYPOINT python -u /client.py localhost 27017
