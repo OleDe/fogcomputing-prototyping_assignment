@@ -26,6 +26,7 @@ Optional:
  - `gcloud` - Google Cloud CLI (preferebly already initialized, see [link](https://cloud.google.com/sdk/docs/initializing))
  - `Docker-compose` - for running the multi-container application
  - `bmp280` - CLient is able to aquire data from a BMP280 temperature, pressure and altitude sensor
+ - `smbus` - library to communicate with raspi I2C devices. Make sure I2C is enables in your raspi config.
 ## How to use the application
 Client and server containers can be deployed in the cloud and an edge node, or both on a single computer.
 
@@ -41,11 +42,10 @@ Alternatively, this can also be deployed in any VM. To host a Google Cloud VM, r
 ```
 ./scripts/build_gc.sh
 ```
-This creates a container-optimized OS, exports a ssh-key as project metadata and prints the servers external ip. Now log in via SSH, download the repository and execute the build script:
+This creates a container-optimized OS, exports a ssh-key as project metadata and prints the servers external ip. Now copy the data to the repository and execute the build script:
 ```
-ssh -i id_rsa foggy@<server-ip>
-git clone <path-to-this-rep>
-cat <rep-name>/server/build_server_image.sh | sh
+scp -i id_rsa ../server/* foggy@<server-ip>:/home/foggy/
+ssh -i id_rsa foggy@<server-ip> 'sh build_server_image.sh'
 ```
 
 ### Deploy Client
