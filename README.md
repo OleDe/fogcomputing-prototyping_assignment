@@ -47,11 +47,19 @@ This creates a container-optimized OS, exports a ssh-key as project metadata and
 scp -i id_rsa server/* foggy@<server-ip>:/home/foggy/
 ssh -i id_rsa foggy@<server-ip> 'sh build_server_image.sh'
 ```
+The server logs can be accessed by calling:
+```
+ssh -i id_rsa foggy@<server-ip> 'docker logs -f py-server'
+```
 
 ### Deploy Client
 To build and start the client on the edge node, pass the server ip accordingly when running docker compose:
 ```
 SERVER_HOSTNAME=<server-ip> docker-compose -f client/docker-compose.yml up -d
+```
+To see what the client is doing, simply call
+```
+docker logs -f py-client
 ```
 
 ### Local-Only
