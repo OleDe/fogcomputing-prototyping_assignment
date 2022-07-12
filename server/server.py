@@ -24,16 +24,16 @@ while True:
     stamp = db.get_latest_timestamp()
     if 'send_timestamp' in message:
         print('Sending latest timestamp: {}...'.format(stamp))
-        request = {'time': stamp}
+        response = {'time': stamp}
 
     # process consecutive messages
     else:
         if message['time'] <= stamp:
             print('deprecated data {} <= {}'.format(message['time'], stamp))
-            request = {'time': stamp}
+            response = {'time': stamp}
         else:
             db.insert({'air_pressure': message['air_pressure'], 'air_temperature': message['air_temperature'], 'time': message['time']})
-            request = {'time': message['time']}
+            response = {'time': message['time']}
         
     # send request
-    socket.send_pyobj(request)
+    socket.send_pyobj(response)
