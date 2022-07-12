@@ -5,6 +5,10 @@ from db import cldb
 # TODO: function comments, message validation
 
 def gather_data(db: cldb):
+    """
+    continuously gather data from the sensor and store in the local database
+    :param db: the database client
+    """
     gd = Gather_data()
     while 1:
         time.sleep(0.1)
@@ -36,16 +40,15 @@ class Client:
         '''
         Receive data from server. Reconnect after timeout
         '''
-        while 1:
-            item = self.poller.poll(self.timeout)
-            response = None
-            if item:
-                response = self.socket.recv_pyobj()
-                print('received response: {}'.format(response))
-            else:
-                print("Server is not reachable. Reconnecting...")
-                self.reconnect()
-            return response
+        item = self.poller.poll(self.timeout)
+        response = None
+        if item:
+            response = self.socket.recv_pyobj()
+            print('received response: {}'.format(response))
+        else:
+            print("Server is not reachable. Reconnecting...")
+            self.reconnect()
+        return response
     
     def send(self, obj):
         '''
