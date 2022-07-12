@@ -2,7 +2,7 @@
 # If bmp280 sensor not found, data will be downloaded from https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=59.9333&lon=10.7166
 # Require data from bmp280 not tested yet!
 
-import time, subprocess, json, sys
+import time, subprocess, json, platform, re
 try:
     from bmp280 import BMP280
     from smbus import SMBus
@@ -12,8 +12,8 @@ except ModuleNotFoundError:
 class Gather_data:
     def __init__(self, sensor=False):
         self.bus=None
-        self.bmp280=None
-        if 'bmp280' in sys.modules:
+        self.bmp280=None)
+        if re.search("(?i)arm", platform.machine()):
             self.bus = SMBus(1)
             self.bmp280 = BMP280(i2c_dev=self.bus)
                 
