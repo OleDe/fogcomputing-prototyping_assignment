@@ -38,13 +38,13 @@ docker-compose -f server/docker-compose.yml up -d
 in the parent directory and let docker compose do the work. This sets up two docker containers, one for the server and one for the database that persistantly stores the data received from the client.
 
 
-Alternatively, this can also be deployed in any VM. To host a Google Cloud VM, run:
+Alternatively, this can also be deployed in any VM. To host a Google Cloud VM, change directory to scripts and run the build_gc script:
 ```
 ./scripts/build_gc.sh
 ```
 This creates a container-optimized OS, exports a ssh-key as project metadata and prints the servers external ip. Now copy the data to the repository and execute the build script:
 ```
-scp -i id_rsa ../server/* foggy@<server-ip>:/home/foggy/
+scp -i id_rsa server/* foggy@<server-ip>:/home/foggy/
 ssh -i id_rsa foggy@<server-ip> 'sh build_server_image.sh'
 ```
 
